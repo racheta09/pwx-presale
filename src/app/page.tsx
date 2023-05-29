@@ -23,6 +23,9 @@ export default function Home() {
         address,
         saleAddress,
     ])
+    const { data: balance } = useContractRead(usdtContract, "balanceOf", [
+        address,
+    ])
     const { data: saleEnded } = useContractRead(saleContract, "saleEnded")
     const { data: tokensSold } = useContractRead(saleContract, "tokensSold")
     const { data: rate } = useContractRead(saleContract, "rate")
@@ -31,7 +34,7 @@ export default function Home() {
         "buyPWXwithUSDT"
     )
     const { mutateAsync: approve } = useContractWrite(usdtContract, "approve")
-    const { mutateAsync: transfer } = useContractWrite(usdtContract, "transfer")
+    // const { mutateAsync: transfer } = useContractWrite(usdtContract, "transfer")
 
     const [usdt, setUsdt] = useState("0")
     return (
@@ -123,19 +126,21 @@ export default function Home() {
                                         <Grid item>
                                             <LinearProgress
                                                 variant="determinate"
-                                                value={50}
-                                                // value={
-                                                //     ((parseInt(tokensSold) *
-                                                //         1e-18) /
-                                                //         5000000) *
-                                                //     100
-                                                // }
+                                                // value={50}
+                                                value={
+                                                    ((parseInt(tokensSold) *
+                                                        1e-18) /
+                                                        5000000) *
+                                                    100
+                                                }
                                                 style={{ height: "25px" }}
                                                 className="rounded-lg max-w-2xl"
                                                 color="primary"
                                             />
                                             <h4 style={{ color: "black" }}>
-                                                {parseInt(tokensSold) * 1e-18}{" "}
+                                                {(
+                                                    parseInt(tokensSold) * 1e-18
+                                                ).toFixed(2)}{" "}
                                                 PWX Sold
                                             </h4>
                                         </Grid>
@@ -144,7 +149,10 @@ export default function Home() {
                                             Current Rate:
                                             {rate / 1000} USDT/PWX
                                         </Grid>
-                                        <Grid item>Balance: {0} USDT</Grid>
+                                        <Grid item>
+                                            Balance:{" "}
+                                            {(balance * 1e-18).toFixed(2)} USDT
+                                        </Grid>
                                     </Grid>
                                     <Grid
                                         container
@@ -171,7 +179,14 @@ export default function Home() {
                                                     width="100"
                                                 />
                                             </Grid>
-                                            <Grid item>{0} TRC</Grid>
+                                            <Grid item>
+                                                {(
+                                                    (parseFloat(usdt) /
+                                                        parseInt(rate)) *
+                                                    1000
+                                                ).toFixed(2)}{" "}
+                                                PWX
+                                            </Grid>
                                             <Grid item>
                                                 <TextField
                                                     id="outlined-number"
@@ -206,6 +221,10 @@ export default function Home() {
                                                                 ],
                                                             })
                                                         }
+                                                        isDisabled={
+                                                            parseFloat(usdt) <
+                                                            50
+                                                        }
                                                     >
                                                         Buy PWX
                                                     </Web3Button>
@@ -226,11 +245,15 @@ export default function Home() {
                                                                 ],
                                                             })
                                                         }
-                                                        theme="dark"
+                                                        isDisabled={
+                                                            parseFloat(usdt) <
+                                                            50
+                                                        }
                                                     >
                                                         Approve USDT
                                                     </Web3Button>
                                                 )}
+                                                <p className="text-center text-red-600 text-sm">*minimum buying amount is 50 USDT</p>
                                             </Grid>
                                         </Grid>
                                     </Grid>
