@@ -78,7 +78,7 @@ export default function Home() {
                         Welcome to PWX Presale Dapp
                     </h1>
                     <h4 className="text-center font-bold">
-                        Launching Price $0.015
+                        Launching Price $0.016
                     </h4>
                     <Grid
                         container
