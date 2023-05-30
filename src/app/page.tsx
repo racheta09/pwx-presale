@@ -20,6 +20,7 @@ import {
 import Image from "next/image"
 import BuyData from "@/components/buyData"
 import Link from "next/link"
+import { Timer } from "@/components/timer"
 
 export default function Home() {
     const saleAddress = "0xb0b6f0a830E9027E0cbF74400592006cE9DBA12B" //Mainnet
@@ -36,7 +37,7 @@ export default function Home() {
     const { data: balance } = useContractRead(usdtContract, "balanceOf", [
         address,
     ])
-    const { data: saleEnded } = useContractRead(saleContract, "saleEnded")
+    // const { data: saleEnded } = useContractRead(saleContract, "saleEnded")
     const { data: tokensSold } = useContractRead(saleContract, "tokensSold")
     const { data: rate } = useContractRead(saleContract, "rate")
     const { data: totalBought } = useContractRead(saleContract, "totalBought", [
@@ -104,6 +105,7 @@ export default function Home() {
                             <h6 className="text-center">
                                 1st round 50,00,000 tokens @0.005 $ For 4 days
                             </h6>
+                            <Timer deadline={"June 3, 2023 10:00:00"} />
                             <h6 className="text-center">
                                 2nd round50,00,000 tokens @ 0.007 $ For 4 days
                             </h6>

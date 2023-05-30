@@ -1,5 +1,4 @@
 import { useContract, useContractRead } from "@thirdweb-dev/react"
-import millify from "millify"
 
 interface BuyDataProps {
     saleAddress: string
@@ -8,7 +7,7 @@ interface BuyDataProps {
 }
 export default function BuyData({ saleAddress, address, index }: BuyDataProps) {
     const { data: saleContract } = useContract(saleAddress)
-    const { data: buyingData, isLoading } = useContractRead(
+    const { data: buyingData } = useContractRead(
         saleContract,
         "buyingData",
         [address, index?.toString()]
