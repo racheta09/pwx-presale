@@ -80,7 +80,7 @@ export default function Home() {
               <LinearProgress
                 variant="determinate"
                 value={
-                  ((parseInt(tokensSold) * 1e-18 + 840000 + 1200000) /
+                  ((parseInt(tokensSold) * 1e-18 + 840000 + 1200000 +1000000) /
                     5000000) *
                   100
                 }
@@ -88,7 +88,7 @@ export default function Home() {
                 color="primary"
               />
               <h4 className="text-center">
-                {(parseInt(tokensSold) * 1e-18 + 840000 + 1200000).toFixed(2)}{" "}
+                {(parseInt(tokensSold) * 1e-18 + 840000 + 1200000 + 1000000).toFixed(2)}{" "}
                 PWX Sold
               </h4>
 
