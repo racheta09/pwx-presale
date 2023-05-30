@@ -120,7 +120,12 @@ export default function Home() {
                                 days
                             </h6>
                         </Grid>
-                        <Grid item sm={12} lg={6} className="bg-[url(/bg1.jpg)] bg-center">
+                        <Grid
+                            item
+                            sm={12}
+                            lg={6}
+                            className="bg-[url(/bg1.jpg)] bg-center"
+                        >
                             <Grid
                                 container
                                 item
@@ -134,8 +139,7 @@ export default function Home() {
                                 <Paper
                                     elevation={24}
                                     style={{
-                                        backgroundColor:
-                                            "transparent",
+                                        backgroundColor: "transparent",
                                         // backgroundColor:
                                         //     "rgba(225, 217, 209,0.5)",
                                         // backgroundColor: "rgb(4, 30, 55)",
@@ -145,34 +149,34 @@ export default function Home() {
                                     }}
                                     // className="flex flex-col items-center justify-center"
                                 >
+                                    <Grid item className="">
+                                        <LinearProgress
+                                            variant="determinate"
+                                            // value={50}
+                                            value={
+                                                ((parseInt(tokensSold) * 1e-18 +
+                                                    840000) /
+                                                    5000000) *
+                                                100
+                                            }
+                                            style={{ height: "25px" }}
+                                            className="rounded-lg max-w-2xl"
+                                            color="primary"
+                                        />
+                                        <h4 style={{ color: "black" }}>
+                                            {(
+                                                parseInt(tokensSold) * 1e-18 +
+                                                840000
+                                            ).toFixed(2)}{" "}
+                                            PWX Sold
+                                        </h4>
+                                    </Grid>
                                     <Grid
                                         container
                                         direction="column"
                                         alignItems={"center"}
                                         justifyItems="center"
                                     >
-                                        <Grid item>
-                                            <LinearProgress
-                                                variant="determinate"
-                                                // value={50}
-                                                value={
-                                                    ((parseInt(tokensSold) *
-                                                        1e-18) /
-                                                        5000000) *
-                                                    100
-                                                }
-                                                style={{ height: "25px" }}
-                                                className="rounded-lg max-w-2xl"
-                                                color="primary"
-                                            />
-                                            <h4 style={{ color: "black" }}>
-                                                {(
-                                                    parseInt(tokensSold) * 1e-18
-                                                ).toFixed(2)}{" "}
-                                                PWX Sold
-                                            </h4>
-                                        </Grid>
-
                                         <Grid item>
                                             Current Rate:
                                             {rate / 1000} USDT/PWX
