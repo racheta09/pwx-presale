@@ -4,30 +4,30 @@ import { ConnectWallet, useAddress } from "@thirdweb-dev/react"
 import { Grid } from "@mui/material"
 
 export default function Auth({
-    children,
+  children,
 }: {
-    children: React.ReactNode
+  children: React.ReactNode
 }): ReactElement {
-    const [isLoggedin, setIsLoggedin] = useState(false)
-    const address = useAddress()
+  const [isLoggedin, setIsLoggedin] = useState(false)
+  const address = useAddress()
 
-    useEffect(() => {
-        if (address) {
-            setIsLoggedin(true)
-        } else {
-            setIsLoggedin(false)
-        }
-    }, [address])
-
-    if (!isLoggedin) {
-        return (
-            <div className="bg-[url(/bg3.jpg)] min-h-screen flex flex-col items-center">
-                <h1 className="text-6xl font-bold text-center">
-                    Welcome to PWX Presale Dapp
-                </h1>
-                <ConnectWallet btnTitle="Connect Wallet to continue"/>
-            </div>
-        )
+  useEffect(() => {
+    if (address) {
+      setIsLoggedin(true)
+    } else {
+      setIsLoggedin(false)
     }
-    return <>{children}</>
+  }, [address])
+
+  if (!isLoggedin) {
+    return (
+      <div className="bg-[url(/bg3.jpg)] min-h-screen flex flex-col items-center">
+        <h1 className="text-6xl font-bold text-center">
+          Welcome to PWX Presale Dapp
+        </h1>
+        <ConnectWallet btnTitle="Connect Wallet to continue" />
+      </div>
+    )
+  }
+  return <>{children}</>
 }
