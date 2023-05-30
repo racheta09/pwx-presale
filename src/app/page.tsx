@@ -57,7 +57,7 @@ export default function Home() {
     const [usdt, setUsdt] = useState("0")
     const [txhash, setTxhash] = useState("")
     return (
-        <main className="flex min-h-screen flex-col items-center">
+        <main>
             <Auth>
                 <Paper
                     sx={{
@@ -74,6 +74,7 @@ export default function Home() {
                         border: "1px solid rgba(0,0,0,0.1)",
                         boxShadow: "0px 0px 10px #1f466a",
                     }}
+                    className="flex min-h-screen flex-col items-center"
                 >
                     <h1 className="text-4xl font-bold text-center">
                         Welcome to PWX Presale Dapp
@@ -86,6 +87,7 @@ export default function Home() {
                         spacing={3}
                         justifyContent="space-evenly"
                         alignItems="center"
+                        // className="flex flex-col sm:flex-row items-center justify-center"
                     >
                         <Grid
                             item
@@ -94,6 +96,7 @@ export default function Home() {
                             sx={{
                                 padding: "20px",
                             }}
+                            className="bg-[url(/bg2.jpg)] bg-center"
                         >
                             <Image
                                 src="/logo.png"
@@ -117,7 +120,7 @@ export default function Home() {
                                 days
                             </h6>
                         </Grid>
-                        <Grid item sm={12} lg={6}>
+                        <Grid item sm={12} lg={6} className="bg-[url(/bg1.jpg)] bg-center">
                             <Grid
                                 container
                                 item
@@ -126,19 +129,21 @@ export default function Home() {
                                 spacing={4}
                                 justifyContent="center"
                                 alignItems="center"
-                                className="flex flex-col items-center justify-center"
+                                // className="flex flex-col items-center justify-center"
                             >
                                 <Paper
                                     elevation={24}
                                     style={{
                                         backgroundColor:
-                                            "rgba(225, 217, 209,0.5)",
+                                            "transparent",
+                                        // backgroundColor:
+                                        //     "rgba(225, 217, 209,0.5)",
                                         // backgroundColor: "rgb(4, 30, 55)",
                                         width: "100%",
                                         padding: "20px",
                                         margin: "20px",
                                     }}
-                                    className="flex flex-col items-center justify-center"
+                                    // className="flex flex-col items-center justify-center"
                                 >
                                     <Grid
                                         container

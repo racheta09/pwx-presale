@@ -21,11 +21,11 @@ export default function Auth({
 
     if (!isLoggedin) {
         return (
-            <div>
+            <div className="bg-[url(/bg3.jpg)] min-h-screen flex flex-col items-center">
                 <h1 className="text-6xl font-bold text-center">
                     Welcome to PWX Presale Dapp
                 </h1>
-                <ConnectWallet btnTitle="Connect Wallet to continue" />
+                <ConnectWallet btnTitle="Connect Wallet to continue"/>
             </div>
         )
     }
