@@ -68,7 +68,7 @@ export default function Home() {
               <h5 className="text-center">
                 2nd round 50,00,000 tokens @ 0.007 $ For 4 days
               </h5>
-              <Timer deadline={"June 4, 2023 00:00:00"} />
+              <Timer deadline={"June 5, 2023 00:00:00"} />
               <h5 className="text-center">
                 3rd round 50,00,000 tokens @ 0.009 $ for 4 days
               </h5>
