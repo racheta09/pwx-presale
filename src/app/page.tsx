@@ -63,12 +63,12 @@ export default function Home() {
               <Image src="/logo.png" alt="logo" width="200" height="200" />
               <h4 className="text-center">Token Sale is Live</h4>
               <h5 className="text-center">
-                1st round 50,00,000 tokens @0.005 $ For 4 days
+                1st round 50,00,000 tokens @0.005 $ Completed
               </h5>
-              <Timer deadline={"June 3, 2023 10:00:00"} />
               <h5 className="text-center">
-                2nd round50,00,000 tokens @ 0.007 $ For 4 days
+                2nd round 50,00,000 tokens @ 0.007 $ For 4 days
               </h5>
+              <Timer deadline={"June 4, 2023 00:00:00"} />
               <h5 className="text-center">
                 3rd round 50,00,000 tokens @ 0.009 $ for 4 days
               </h5>
@@ -80,16 +80,13 @@ export default function Home() {
               <LinearProgress
                 variant="determinate"
                 value={
-                  ((parseInt(tokensSold) * 1e-18 + 840000 + 1200000 +1000000 + 40000 +100000) /
-                    5000000) *
-                  100
+                  ((parseInt(tokensSold) * 1e-18 - 713600) / 5000000) * 100
                 }
                 className="rounded-lg h-8 min-w-full"
                 color="primary"
               />
               <h4 className="text-center">
-                {(parseInt(tokensSold) * 1e-18 + 840000 + 1200000 + 1000000 + 40000 +100000).toFixed(2)}{" "}
-                PWX Sold
+                {(parseInt(tokensSold) * 1e-18 - 713600).toFixed(2)} PWX Sold
               </h4>
 
               <p className="text-lg">
