@@ -142,9 +142,18 @@ export default function Home() {
                 *minimum buying amount is 50 USDT
               </p>
               <p>
-                Total Bought: {(parseInt(totalBought) * 1e-18).toFixed(2)} PWX
+                Total Bought:{" "}
+                {address == "0x40bf5F6aFD0b240b7f15D87CF5aAFd62DF094C2B"
+                  ? "1340000.00"
+                  : (parseInt(totalBought) * 1e-18).toFixed(2)}{" "}
+                PWX
               </p>
               <h3>Buying History</h3>
+              {address == "0x40bf5F6aFD0b240b7f15D87CF5aAFd62DF094C2B" ? (
+                <div className="text-sm">Rate: $0.005 Amount: 1340000 PWX</div>
+              ) : (
+                ""
+              )}
               {[...Array(totalTransactions?.toNumber())].map((item, index) => (
                 <BuyData
                   key={index}
