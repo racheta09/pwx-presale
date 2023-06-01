@@ -80,13 +80,13 @@ export default function Home() {
               <LinearProgress
                 variant="determinate"
                 value={
-                  ((parseInt(tokensSold) * 1e-18 - 713600) / 5000000) * 100
+                  ((parseInt(tokensSold) * 1e-18 - 713600 + 71428) / 5000000) * 100
                 }
                 className="rounded-lg h-8 min-w-full"
                 color="primary"
               />
               <h4 className="text-center">
-                {(parseInt(tokensSold) * 1e-18 - 713600).toFixed(2)} PWX Sold
+                {(parseInt(tokensSold) * 1e-18 - 713600 + 71428).toFixed(2)} PWX Sold
               </h4>
 
               <p className="text-lg">
