@@ -12,16 +12,52 @@ import { LinearProgress, TextField, Alert, Snackbar } from "@mui/material"
 import Image from "next/image"
 import BuyData from "@/components/buyData"
 import Link from "next/link"
-import { Timer } from "@/components/timer"
 
-export default function Home() {
+import { Timer } from "@/components/timer"
+import erc20abi from "@/assets/tokenabi.json"
+import PWXSeller from "@/assets/PWXSeller.json"
+
+// import Web3 from "web3"
+// import { AbiItem } from "web3-utils"
+
+export default async function Home() {
+  // const web3 = new Web3(
+  //   Web3.givenProvider || "https://bsc-dataseed1.binance.org"
+  // )
+
   const saleAddress = "0xb0b6f0a830E9027E0cbF74400592006cE9DBA12B" //Mainnet
   const usdtAddress = "0x55d398326f99059fF775485246999027B3197955" //Mainnet
   // const saleAddress = "0x207d4c59858193Af55190b2E8604d77221C2cC5c"
-  // const usdtAddress = "0xea9579a69EbD08217926B364E8c8de513FDf8E23"
+  // // const usdtAddress = "0xea9579a69EbD08217926B364E8c8de513FDf8E23"
+  
   const address = useAddress()
-  const { data: saleContract } = useContract(saleAddress)
-  const { data: usdtContract } = useContract(usdtAddress, "token")
+  // const address = await web3.eth.getAccounts()
+  // const saleContract = new web3.eth.Contract(
+  //   PWXSeller as AbiItem[],
+  //   saleAddress
+  // )
+  // const usdtContract = new web3.eth.Contract(erc20abi as AbiItem[], usdtAddress)
+
+  // const allowance = await usdtContract.methods
+  //   .allowance(address, saleAddress)
+  //   .call()
+  // const balance = await usdtContract.methods.balanceOf(address).call()
+  // console.log(address)
+
+  // const tokensSold: any = await saleContract.methods.tokensSold().call()
+  // const rate: any = await saleContract.methods.rate().call()
+  // const totalBought: any = await saleContract.methods
+  //   .totalBought(address)
+  //   .call()
+  // const totalTransactions: any = await saleContract.methods
+  //   .totalTransactions(address)
+  //   .call()
+
+  // const buyPWX = () => {}
+  // const approve = () => {}
+
+  const { data: saleContract } = useContract(saleAddress, PWXSeller)
+  const { data: usdtContract } = useContract(usdtAddress, erc20abi)
   const { data: allowance } = useContractRead(usdtContract, "allowance", [
     address,
     saleAddress,
@@ -29,7 +65,7 @@ export default function Home() {
   const { data: balance } = useContractRead(usdtContract, "balanceOf", [
     address,
   ])
-  // const { data: saleEnded } = useContractRead(saleContract, "saleEnded")
+  const { data: saleEnded } = useContractRead(saleContract, "saleEnded")
   const { data: tokensSold } = useContractRead(saleContract, "tokensSold")
   const { data: rate } = useContractRead(saleContract, "rate")
   const { data: totalBought } = useContractRead(saleContract, "totalBought", [
