@@ -1,13 +1,6 @@
 "use client"
 import Auth from "@/components/auth"
-import {
-  useContractWrite,
-  useContractRead,
-  useContract,
-  useAddress,
-  Web3Button,
-} from "@thirdweb-dev/react"
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { LinearProgress, TextField, Alert, Snackbar } from "@mui/material"
 import Image from "next/image"
 import BuyData from "@/components/buyData"
@@ -17,70 +10,83 @@ import { Timer } from "@/components/timer"
 import erc20abi from "@/assets/tokenabi.json"
 import PWXSeller from "@/assets/PWXSeller.json"
 
-// import Web3 from "web3"
-// import { AbiItem } from "web3-utils"
+import Web3 from "web3"
+import { AbiItem } from "web3-utils"
 
-export default async function Home() {
-  // const web3 = new Web3(
-  //   Web3.givenProvider || "https://bsc-dataseed1.binance.org"
-  // )
+const getAddress = async (): Promise<string> => {
+  const web3 = new Web3(
+    Web3.givenProvider || "https://bsc-dataseed1.binance.org"
+  )
+  const address = await web3.eth.getAccounts()
+  return address[0]
+}
 
+export default function Home() {
+  const web3 = new Web3(
+    Web3.givenProvider || "https://bsc-dataseed1.binance.org"
+  )
+  const [address, setAddress] = useState("")
   const saleAddress = "0xb0b6f0a830E9027E0cbF74400592006cE9DBA12B" //Mainnet
   const usdtAddress = "0x55d398326f99059fF775485246999027B3197955" //Mainnet
   // const saleAddress = "0x207d4c59858193Af55190b2E8604d77221C2cC5c"
   // // const usdtAddress = "0xea9579a69EbD08217926B364E8c8de513FDf8E23"
-  
-  const address = useAddress()
-  // const address = await web3.eth.getAccounts()
-  // const saleContract = new web3.eth.Contract(
-  //   PWXSeller as AbiItem[],
-  //   saleAddress
-  // )
-  // const usdtContract = new web3.eth.Contract(erc20abi as AbiItem[], usdtAddress)
 
-  // const allowance = await usdtContract.methods
-  //   .allowance(address, saleAddress)
-  //   .call()
-  // const balance = await usdtContract.methods.balanceOf(address).call()
-  // console.log(address)
-
-  // const tokensSold: any = await saleContract.methods.tokensSold().call()
-  // const rate: any = await saleContract.methods.rate().call()
-  // const totalBought: any = await saleContract.methods
-  //   .totalBought(address)
-  //   .call()
-  // const totalTransactions: any = await saleContract.methods
-  //   .totalTransactions(address)
-  //   .call()
-
-  // const buyPWX = () => {}
-  // const approve = () => {}
-
-  const { data: saleContract } = useContract(saleAddress, PWXSeller)
-  const { data: usdtContract } = useContract(usdtAddress, erc20abi)
-  const { data: allowance } = useContractRead(usdtContract, "allowance", [
-    address,
-    saleAddress,
-  ])
-  const { data: balance } = useContractRead(usdtContract, "balanceOf", [
-    address,
-  ])
-  const { data: saleEnded } = useContractRead(saleContract, "saleEnded")
-  const { data: tokensSold } = useContractRead(saleContract, "tokensSold")
-  const { data: rate } = useContractRead(saleContract, "rate")
-  const { data: totalBought } = useContractRead(saleContract, "totalBought", [
-    address,
-  ])
-  const { data: totalTransactions } = useContractRead(
-    saleContract,
-    "totalTransactions",
-    [address]
+  const saleContract = new web3.eth.Contract(
+    PWXSeller as AbiItem[],
+    saleAddress
   )
-  const { mutateAsync: buyPWX } = useContractWrite(
-    saleContract,
-    "buyPWXwithUSDT"
-  )
-  const { mutateAsync: approve } = useContractWrite(usdtContract, "approve")
+  const usdtContract = new web3.eth.Contract(erc20abi as AbiItem[], usdtAddress)
+
+  const buyPWX = async () => {
+    const sold = await saleContract.methods
+      .buyPWXwithUSDT((parseFloat(usdt) * 1e18).toString())
+      .send({ from: address })
+    setTxhash(sold["transactionHash"])
+  }
+  const approve = async () => {
+    const approved = await usdtContract.methods
+      .approve(saleAddress, (parseFloat(usdt) * 1e18).toString())
+      .send({ from: address })
+    setTxhash(approved["transactionHash"])
+  }
+
+  const [allowance, setAllowance] = useState("")
+  const [balance, setBalance] = useState("")
+  const [tokensSold, setTokensSold] = useState("")
+  const [rate, setRate] = useState("")
+  const [totalBought, setTotalBought] = useState("")
+  const [totalTransactions, setTotalTransactions] = useState("")
+  useEffect(() => {
+    const fetchAddress = async () => {
+      const fetchedAddress = await getAddress()
+      setAddress(fetchedAddress)
+    }
+
+    fetchAddress()
+  }, [])
+  useEffect(() => {
+    const fetchData = async () => {
+      const allowance = await usdtContract.methods
+        .allowance(address, saleAddress)
+        .call()
+      const balance = await usdtContract.methods.balanceOf(address).call()
+      const tokensSold: any = await saleContract.methods.tokensSold().call()
+      const rate: any = await saleContract.methods.rate().call()
+      const totalBought: any = await saleContract.methods
+        .totalBought(address)
+        .call()
+      const totalTransactions: any = await saleContract.methods
+        .totalTransactions(address)
+        .call()
+      setAllowance(allowance)
+      setBalance(balance)
+      setTokensSold(tokensSold)
+      setRate(rate)
+      setTotalBought(totalBought)
+      setTotalTransactions(totalTransactions)
+    }
+    if (address) fetchData()
+  }, [address])
 
   const [usdt, setUsdt] = useState("0")
   const [txhash, setTxhash] = useState("")
@@ -140,9 +146,9 @@ export default async function Home() {
 
               <p className="text-lg">
                 Current Rate:
-                {rate / 1000} USDT/PWX
+                {parseInt(rate) / 1000} USDT/PWX
                 <br />
-                Balance: {(balance * 1e-18).toFixed(2)} USDT
+                Balance: {(parseInt(balance) * 1e-18).toFixed(2)} USDT
               </p>
               <Image src="/usdt.png" alt="USDT" height="100" width="100" />
               <p className="text-lg">
@@ -162,30 +168,13 @@ export default async function Home() {
                 name="usdttext"
               />
               {parseInt(allowance) >= parseFloat(usdt) * 1e18 ? (
-                <Web3Button
-                  contractAddress={saleAddress}
-                  action={async () => {
-                    const tx = await buyPWX({
-                      args: [(parseFloat(usdt) * 1e18).toString()],
-                    })
-                    setTxhash(tx?.receipt?.transactionHash)
-                  }}
-                  isDisabled={parseFloat(usdt) < 50}
-                >
+                <button onClick={buyPWX} disabled={parseFloat(usdt) < 50} type="button" className="text-white bg-gradient-to-r from-cyan-500 to-blue-500 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-cyan-300 dark:focus:ring-cyan-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2">
                   Buy PWX
-                </Web3Button>
+                </button>
               ) : (
-                <Web3Button
-                  contractAddress={usdtAddress}
-                  action={async () =>
-                    await approve({
-                      args: [saleAddress, (parseFloat(usdt) * 1e18).toString()],
-                    })
-                  }
-                  isDisabled={parseFloat(usdt) < 50}
-                >
+                <button onClick={approve} disabled={parseFloat(usdt) < 50} type="button" className="text-white bg-gradient-to-r from-cyan-500 to-blue-500 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-cyan-300 dark:focus:ring-cyan-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2">
                   Approve USDT
-                </Web3Button>
+                </button>
               )}
               <p className="text-center text-red-600 text-sm">
                 *minimum buying amount is 50 USDT
@@ -203,14 +192,14 @@ export default async function Home() {
               ) : (
                 ""
               )}
-              {[...Array(totalTransactions?.toNumber())].map((item, index) => (
+              {/* {[...Array(totalTransactions?.toNumber())].map((item, index) => (
                 <BuyData
                   key={index}
                   saleAddress={saleAddress}
                   address={address}
                   index={index}
                 />
-              ))}
+              ))} */}
               <Snackbar
                 open={txhash !== ""}
                 autoHideDuration={6000}
