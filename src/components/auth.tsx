@@ -6,16 +6,16 @@ declare global {
     ethereum?: any
   }
 }
-const getAddress = async (): Promise<string> => {
+const connectMetamask = async (): Promise<[string, number]> => {
   if (typeof window !== "undefined" && window.ethereum) {
     await window.ethereum.request({
       method: "eth_requestAccounts",
     })
-    // window.web3 = new Web3(window.ethereum)
   }
   const web3 = new Web3(window.ethereum || "https://bsc-dataseed1.binance.org")
   const address = await web3.eth.getAccounts()
-  return address[0]
+  const chainId = await web3.eth.getChainId()
+  return [address[0], chainId]
 }
 
 export default function Auth({
@@ -25,22 +25,30 @@ export default function Auth({
 }): ReactElement {
   const [isLoggedin, setIsLoggedin] = useState(false)
   const [address, setAddress] = useState("")
+  const [chainId, setChainId] = useState(0)
 
   const fetchAddress = async () => {
-    const fetchedAddress = await getAddress()
+    const [fetchedAddress, chainId] = await connectMetamask()
     setAddress(fetchedAddress)
+    setChainId(chainId)
   }
 
   useEffect(() => {
     setIsLoggedin(!!address)
   }, [address])
-
-  if (!isLoggedin) {
+  if (!isLoggedin || chainId !== 56) {
     return (
       <div className="bg-[url(/bg3.jpg)] min-h-screen flex flex-col items-center">
         <h1 className="text-6xl font-bold text-center">
           Welcome to PWX Presale Dapp
         </h1>
+        {chainId !== 56 && chainId !== 0 ? (
+          <h2 className="text-red-700 text-center">
+            Please switch to Binance Smart Chain Mainnet
+          </h2>
+        ) : (
+          ""
+        )}
         <button
           onClick={fetchAddress}
           type="button"

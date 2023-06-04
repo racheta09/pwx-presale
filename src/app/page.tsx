@@ -14,17 +14,13 @@ import Web3 from "web3"
 import { AbiItem } from "web3-utils"
 
 const getAddress = async (): Promise<string> => {
-  const web3 = new Web3(
-    Web3.givenProvider || "https://bsc-dataseed1.binance.org"
-  )
+  const web3 = new Web3(window.ethereum || "https://bsc-dataseed1.binance.org")
   const address = await web3.eth.getAccounts()
   return address[0]
 }
 
 export default function Home() {
-  const web3 = new Web3(
-    Web3.givenProvider || "https://bsc-dataseed1.binance.org"
-  )
+  const web3 = new Web3(Web3.givenProvider || "https://bsc-dataseed1.binance.org")
   const [address, setAddress] = useState("")
   const saleAddress = "0xb0b6f0a830E9027E0cbF74400592006cE9DBA12B" //Mainnet
   const usdtAddress = "0x55d398326f99059fF775485246999027B3197955" //Mainnet
@@ -168,11 +164,21 @@ export default function Home() {
                 name="usdttext"
               />
               {parseInt(allowance) >= parseFloat(usdt) * 1e18 ? (
-                <button onClick={buyPWX} disabled={parseFloat(usdt) < 50} type="button" className="text-white bg-gradient-to-r from-cyan-500 to-blue-500 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-cyan-300 dark:focus:ring-cyan-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2">
+                <button
+                  onClick={buyPWX}
+                  disabled={parseFloat(usdt) < 50}
+                  type="button"
+                  className="text-white bg-gradient-to-r from-cyan-500 to-blue-500 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-cyan-300 dark:focus:ring-cyan-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2"
+                >
                   Buy PWX
                 </button>
               ) : (
-                <button onClick={approve} disabled={parseFloat(usdt) < 50} type="button" className="text-white bg-gradient-to-r from-cyan-500 to-blue-500 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-cyan-300 dark:focus:ring-cyan-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2">
+                <button
+                  onClick={approve}
+                  disabled={parseFloat(usdt) < 50}
+                  type="button"
+                  className="text-white bg-gradient-to-r from-cyan-500 to-blue-500 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-cyan-300 dark:focus:ring-cyan-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2"
+                >
                   Approve USDT
                 </button>
               )}
@@ -192,14 +198,15 @@ export default function Home() {
               ) : (
                 ""
               )}
-              {/* {[...Array(totalTransactions?.toNumber())].map((item, index) => (
-                <BuyData
-                  key={index}
-                  saleAddress={saleAddress}
-                  address={address}
-                  index={index}
-                />
-              ))} */}
+              {totalTransactions &&
+                [...Array(parseInt(totalTransactions))].map((item, index) => (
+                  <BuyData
+                    key={index}
+                    saleContract={saleContract}
+                    address={address}
+                    index={index}
+                  />
+                ))}
               <Snackbar
                 open={txhash !== ""}
                 autoHideDuration={6000}
