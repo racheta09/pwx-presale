@@ -84,7 +84,7 @@ export default function Home() {
                     713600 +
                     71428 +
                     285714 +
-                    4000000) /
+                    2895755) /
                     5000000) *
                   100
                 }
@@ -97,7 +97,7 @@ export default function Home() {
                   713600 +
                   71428 +
                   285714 +
-                  4000000
+                  2895755
                 ).toFixed(2)}{" "}
                 PWX Sold
               </h4>
