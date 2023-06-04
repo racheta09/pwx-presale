@@ -20,7 +20,9 @@ const getAddress = async (): Promise<string> => {
 }
 
 export default function Home() {
-  const web3 = new Web3(Web3.givenProvider || "https://bsc-dataseed1.binance.org")
+  const web3 = new Web3(
+    Web3.givenProvider || "https://bsc-dataseed1.binance.org"
+  )
   const [address, setAddress] = useState("")
   const saleAddress = "0xb0b6f0a830E9027E0cbF74400592006cE9DBA12B" //Mainnet
   const usdtAddress = "0x55d398326f99059fF775485246999027B3197955" //Mainnet
@@ -104,12 +106,12 @@ export default function Home() {
                 1st round 50,00,000 tokens @0.005 $ Completed
               </h5>
               <h5 className="text-center">
-                2nd round 50,00,000 tokens @ 0.007 $ For 4 days
+                2nd round 50,00,000 tokens @ 0.007 $ Completed
               </h5>
-              <Timer deadline={"June 5, 2023 00:00:00"} />
               <h5 className="text-center">
                 3rd round 50,00,000 tokens @ 0.009 $ for 4 days
               </h5>
+              <Timer deadline={"June 9, 2023 00:00:00"} />
               <h5 className="text-center">
                 Final round 50,00,000 tokens @ 0.011 $ for 4 days
               </h5>
@@ -119,10 +121,11 @@ export default function Home() {
                 variant="determinate"
                 value={
                   ((parseInt(tokensSold) * 1e-18 -
-                    713600 +
-                    71428 +
-                    285714 +
-                    2895755) /
+                    // 713600 +
+                    // 71428 +
+                    // 285714 +
+                    // 2895755
+                    806417.14) /
                     5000000) *
                   100
                 }
@@ -132,10 +135,11 @@ export default function Home() {
               <h4 className="text-center">
                 {(
                   parseInt(tokensSold) * 1e-18 -
-                  713600 +
-                  71428 +
-                  285714 +
-                  2895755
+                  // 713600 +
+                  // 71428 +
+                  // 285714 +
+                  // 2895755
+                  806417.14
                 ).toFixed(2)}{" "}
                 PWX Sold
               </h4>
