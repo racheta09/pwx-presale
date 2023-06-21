@@ -1,7 +1,6 @@
 "use client"
 import { ReactElement, useEffect, useState } from "react"
 import { ConnectWallet, useAddress } from "@thirdweb-dev/react"
-import { Grid } from "@mui/material"
 
 export default function Auth({
   children,

@@ -29,7 +29,7 @@ export default function Home() {
   const { data: balance } = useContractRead(usdtContract, "balanceOf", [
     address,
   ])
-  // const { data: saleEnded } = useContractRead(saleContract, "saleEnded")
+  const { data: saleEnded } = useContractRead(saleContract, "saleEnded")
   const { data: tokensSold } = useContractRead(saleContract, "tokensSold")
   const { data: rate } = useContractRead(saleContract, "rate")
   const { data: totalBought } = useContractRead(saleContract, "totalBought", [
@@ -66,18 +66,18 @@ export default function Home() {
                 1st round 50,00,000 tokens @0.005 $ Completed
               </h5>
               <h5 className="text-center">
-                2nd round 50,00,000 tokens @ 0.007 $ For 4 days
+                2nd round 50,00,000 tokens @ 0.007 $ Completed
               </h5>
-              <Timer deadline={"June 5, 2023 00:00:00"} />
+              {/* <Timer deadline={"June 5, 2023 00:00:00"} /> */}
               <h5 className="text-center">
-                3rd round 50,00,000 tokens @ 0.009 $ for 4 days
+                3rd round 50,00,000 tokens @ 0.009 $ Completed
               </h5>
               <h5 className="text-center">
-                Final round 50,00,000 tokens @ 0.011 $ for 4 days
+                Final round 50,00,000 tokens @ 0.011 $ Completed
               </h5>
             </div>
             <div className="flex flex-1 flex-col items-center justify-center bg-[url(/bg1.jpg)] bg-center bg-transparent gap-2 p-5 min-h-screen w-full lg:w-1/2">
-              <LinearProgress
+              {/* <LinearProgress
                 variant="determinate"
                 value={
                   ((parseInt(tokensSold) * 1e-18 -
@@ -90,30 +90,21 @@ export default function Home() {
                 }
                 className="rounded-lg h-8 min-w-full"
                 color="primary"
-              />
-              <h4 className="text-center">
-                {(
-                  parseInt(tokensSold) * 1e-18 -
-                  713600 +
-                  71428 +
-                  285714 +
-                  2895755
-                ).toFixed(2)}{" "}
-                PWX Sold
-              </h4>
+              /> */}
+              <h4 className="text-center">16060865 PWX Sold</h4>
 
               <p className="text-lg">
-                Current Rate:
+                {/* Current Rate:
                 {rate / 1000} USDT/PWX
-                <br />
+                <br /> */}
                 Balance: {(balance * 1e-18).toFixed(2)} USDT
               </p>
-              <Image src="/usdt.png" alt="USDT" height="100" width="100" />
-              <p className="text-lg">
+              {/* <Image src="/usdt.png" alt="USDT" height="100" width="100" /> */}
+              {/* <p className="text-lg">
                 You will get{" "}
                 {((parseFloat(usdt) / parseInt(rate)) * 1000).toFixed(2)} PWX
-              </p>
-              <TextField
+              </p> */}
+              {/* <TextField
                 id="outlined-number"
                 label="USDT"
                 type="number"
@@ -124,36 +115,40 @@ export default function Home() {
                   shrink: true,
                 }}
                 name="usdttext"
-              />
-              {parseInt(allowance) >= parseFloat(usdt) * 1e18 ? (
-                <Web3Button
-                  contractAddress={saleAddress}
-                  action={async () => {
-                    const tx = await buyPWX({
-                      args: [(parseFloat(usdt) * 1e18).toString()],
-                    })
-                    setTxhash(tx?.receipt?.transactionHash)
-                  }}
-                  isDisabled={parseFloat(usdt) < 50}
-                >
-                  Buy PWX
-                </Web3Button>
-              ) : (
-                <Web3Button
-                  contractAddress={usdtAddress}
-                  action={async () =>
-                    await approve({
-                      args: [saleAddress, (parseFloat(usdt) * 1e18).toString()],
-                    })
-                  }
-                  isDisabled={parseFloat(usdt) < 50}
-                >
-                  Approve USDT
-                </Web3Button>
-              )}
-              <p className="text-center text-red-600 text-sm">
+              /> */}
+              {/* {!saleEnded &&
+                (parseInt(allowance) >= parseFloat(usdt) * 1e18 ? (
+                  <Web3Button
+                    contractAddress={saleAddress}
+                    action={async () => {
+                      const tx = await buyPWX({
+                        args: [(parseFloat(usdt) * 1e18).toString()],
+                      })
+                      setTxhash(tx?.receipt?.transactionHash)
+                    }}
+                    isDisabled={parseFloat(usdt) < 50}
+                  >
+                    Buy PWX
+                  </Web3Button>
+                ) : (
+                  <Web3Button
+                    contractAddress={usdtAddress}
+                    action={async () =>
+                      await approve({
+                        args: [
+                          saleAddress,
+                          (parseFloat(usdt) * 1e18).toString(),
+                        ],
+                      })
+                    }
+                    isDisabled={parseFloat(usdt) < 50}
+                  >
+                    Approve USDT
+                  </Web3Button>
+                ))} */}
+              {/* <p className="text-center text-red-600 text-sm">
                 *minimum buying amount is 50 USDT
-              </p>
+              </p> */}
               <p>
                 Total Bought:{" "}
                 {address == "0x40bf5F6aFD0b240b7f15D87CF5aAFd62DF094C2B"
@@ -175,7 +170,7 @@ export default function Home() {
                   index={index}
                 />
               ))}
-              <Snackbar
+              {/* <Snackbar
                 open={txhash !== ""}
                 autoHideDuration={6000}
                 onClose={() => setTxhash("")}
@@ -188,7 +183,7 @@ export default function Home() {
                     Transaction Success
                   </Link>
                 </Alert>
-              </Snackbar>
+              </Snackbar> */}
             </div>
           </div>
         </div>
