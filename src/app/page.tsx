@@ -61,7 +61,7 @@ export default function Home() {
           <div className="flex flex-col lg:flex-row items-center justify-center gap-2 w-full lg:w-5/6 m-2 p-2">
             <div className="flex flex-1 flex-col items-center justify-center bg-[url(/bg2.jpg)] bg-center bg-transparent gap-2 p-5 min-h-screen w-full lg:w-1/2">
               <Image src="/logo.png" alt="logo" width="200" height="200" />
-              <h4 className="text-center">Token Sale is Live</h4>
+              <h4 className="text-center">Token Sale is Completed</h4>
               <h5 className="text-center">
                 1st round 50,00,000 tokens @0.005 $ Completed
               </h5>
